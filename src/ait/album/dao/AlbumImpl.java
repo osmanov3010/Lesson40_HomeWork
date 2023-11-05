@@ -124,8 +124,4 @@ public class AlbumImpl implements Album {
         return resultPhotos;
     }
 
-    private int findIndexOfPhotoInArray(Photo photo) {
-        return Arrays.binarySearch(photos, 0, size, photo);
-    }
-
 }
