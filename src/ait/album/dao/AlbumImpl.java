@@ -67,6 +67,15 @@ public class AlbumImpl implements Album {
     @Override
     public boolean updatePhoto(int photoId, int albumId, String url) {
 
+        Photo photo = getPhotoFromAlbum(photoId, albumId);
+        if (photo != null) {
+            photo.setUrl(url);
+            return true;
+        } else {
+            return false;
+        }
+
+        /*
         for (int i = 0; i < size; i++) {
             if (photos[i].getAlbumId() == albumId && photos[i].getPhotoId() == photoId) {
                 photos[i].setUrl(url);
@@ -75,6 +84,8 @@ public class AlbumImpl implements Album {
         }
 
         return false;
+
+        */
     }
 
     @Override
@@ -92,6 +103,7 @@ public class AlbumImpl implements Album {
     @Override
     public Photo[] getPhotoBetweenDate(LocalDate dateFrom, LocalDate dateTo) {
 
+        /*
         Predicate<Photo> predicate = (photo) -> {
             int res1 = photo.getDate().toLocalDate().compareTo(dateFrom);
             int res2 = photo.getDate().toLocalDate().compareTo(dateTo);
@@ -100,6 +112,12 @@ public class AlbumImpl implements Album {
         };
 
         return findPhotosByPredicate(predicate);
+        */
+
+        return findPhotosByPredicate(p -> p.getDate().toLocalDate().isAfter(dateFrom.minusDays(1))
+                && p.getDate().toLocalDate().isBefore(dateTo.plusDays(1)));
+
+
     }
 
     @Override
@@ -118,10 +136,14 @@ public class AlbumImpl implements Album {
             }
         }
 
+        return Arrays.copyOf(tempArray, counter);
+
+        /*
         Photo[] resultPhotos = new Photo[counter];
         System.arraycopy(tempArray, 0, resultPhotos, 0, counter);
 
         return resultPhotos;
+        */
     }
 
 }
